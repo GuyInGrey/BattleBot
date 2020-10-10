@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotClient", "BattleBotClient\BattleBotClient.csproj", "{30062A9B-E970-412E-A7C1-19C54FF8723E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBot", "BattleBot\BattleBot.csproj", "{30062A9B-E970-412E-A7C1-19C54FF8723E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotTest", "BattleBotTest\BattleBotTest.csproj", "{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}"
 EndProject

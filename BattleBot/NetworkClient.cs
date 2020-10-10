@@ -54,11 +54,14 @@ namespace BattleBot
 
                         } while (!result.EndOfMessage);
 
-                        var data = Encoding.UTF8.GetString(ms.ToArray());
-                        ms.Seek(0, SeekOrigin.Begin);
-                        ms.Position = 0;
+                        if (result.MessageType == WebSocketMessageType.Text)
+                        {
+                            var data = Encoding.UTF8.GetString(ms.ToArray());
+                            ms.Seek(0, SeekOrigin.Begin);
+                            ms.Position = 0;
 
-                        OnMessageReceived?.Invoke(this, new MessageReceivedEventArgs(data));
+                            OnMessageReceived?.Invoke(this, new MessageReceivedEventArgs(data));
+                        }
                     }
                 }
                 catch (Exception e)

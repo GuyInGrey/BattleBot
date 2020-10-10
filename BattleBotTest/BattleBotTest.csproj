@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BattleBotClient\BattleBotClient.csproj">
+    <ProjectReference Include="..\BattleBot\BattleBot.csproj">
       <Project>{30062a9b-e970-412e-a7c1-19c54ff8723e}</Project>
-      <Name>BattleBotClient</Name>
+      <Name>BattleBot</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿using BattleBot.Client;
+﻿using BattleBot;
 
 namespace BattleBot.Tests
 {
@@ -6,7 +6,7 @@ namespace BattleBot.Tests
     {
         static void Main(string[] args)
         {
-            var client = new BattleBotClient("0.0.0.0");
+            var client = new BattleBotClient(@"ws://serverUrlHere");
         }
     }
 }
