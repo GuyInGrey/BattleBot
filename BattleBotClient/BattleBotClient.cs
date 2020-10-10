@@ -2,7 +2,7 @@
 using System.Dynamic;
 using Newtonsoft.Json;
 
-namespace BattleBot.Client
+namespace BattleBot
 {
     public class BattleBotClient
     {

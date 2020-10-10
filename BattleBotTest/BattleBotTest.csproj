@@ -54,14 +54,6 @@
       <Project>{30062a9b-e970-412e-a7c1-19c54ff8723e}</Project>
       <Name>BattleBotClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BattleBotLib\BattleBotLib.csproj">
-      <Project>{ae7d0bf2-d234-4648-81e3-b0674b75930b}</Project>
-      <Name>BattleBotLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BattleBotServer\BattleBotServer.csproj">
-      <Project>{b9afdee3-c82e-4b74-bac7-3f2e39124db6}</Project>
-      <Name>BattleBotServer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,10 +5,6 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotClient", "BattleBotClient\BattleBotClient.csproj", "{30062A9B-E970-412E-A7C1-19C54FF8723E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotServer", "BattleBotServer\BattleBotServer.csproj", "{B9AFDEE3-C82E-4B74-BAC7-3F2E39124DB6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotLib", "BattleBotLib\BattleBotLib.csproj", "{AE7D0BF2-D234-4648-81E3-B0674B75930B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleBotTest", "BattleBotTest\BattleBotTest.csproj", "{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}"
 EndProject
 Global
@@ -21,14 +17,6 @@ Global
 		{30062A9B-E970-412E-A7C1-19C54FF8723E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30062A9B-E970-412E-A7C1-19C54FF8723E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30062A9B-E970-412E-A7C1-19C54FF8723E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9AFDEE3-C82E-4B74-BAC7-3F2E39124DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9AFDEE3-C82E-4B74-BAC7-3F2E39124DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9AFDEE3-C82E-4B74-BAC7-3F2E39124DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9AFDEE3-C82E-4B74-BAC7-3F2E39124DB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE7D0BF2-D234-4648-81E3-B0674B75930B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE7D0BF2-D234-4648-81E3-B0674B75930B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE7D0BF2-D234-4648-81E3-B0674B75930B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE7D0BF2-D234-4648-81E3-B0674B75930B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}.Release|Any CPU.ActiveCfg = Release|Any CPU
