@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BattleBotClient
+namespace BattleBot
 {
     public class NetworkClient : IDisposable
     {
@@ -15,6 +15,11 @@ namespace BattleBotClient
         public NetworkClient()
         {
             Client = new ClientWebSocket();
+        }
+
+        public NetworkClient(ClientWebSocket client)
+        {
+            Client = client;
         }
 
         public async Task<bool> BeginListening(string url)
@@ -53,8 +58,7 @@ namespace BattleBotClient
                         ms.Seek(0, SeekOrigin.Begin);
                         ms.Position = 0;
 
-                        var eventArgs = new MessageReceivedEventArgs(data, this);
-                        OnMessageReceived?.Invoke(this, eventArgs);
+                        OnMessageReceived?.Invoke(this, new MessageReceivedEventArgs(data));
                     }
                 }
                 catch (Exception e)

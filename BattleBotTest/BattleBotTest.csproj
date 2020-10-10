@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{30062A9B-E970-412E-A7C1-19C54FF8723E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>BattleBot.Client</RootNamespace>
-    <AssemblyName>BattleBotClient</AssemblyName>
+    <ProjectGuid>{D8BF54ED-E5F9-441C-95A3-DBB690B5443D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BattleBot.Tests</RootNamespace>
+    <AssemblyName>BattleBotTest</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,13 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,20 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleBotClient.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="JsonConstructs\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\BattleBotClient\BattleBotClient.csproj">
+      <Project>{30062a9b-e970-412e-a7c1-19c54ff8723e}</Project>
+      <Name>BattleBotClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BattleBotLib\BattleBotLib.csproj">
       <Project>{ae7d0bf2-d234-4648-81e3-b0674b75930b}</Project>
       <Name>BattleBotLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BattleBotServer\BattleBotServer.csproj">
+      <Project>{b9afdee3-c82e-4b74-bac7-3f2e39124db6}</Project>
+      <Name>BattleBotServer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
