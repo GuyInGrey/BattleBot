@@ -13,5 +13,17 @@ namespace BattleBot
         public double X { get; set; }
         public double Y { get; set; }
         public double R { get; set; }
+
+        public static WorldObject FromDynamic(dynamic d)
+        {
+            return new WorldObject()
+            {
+                ID = d.id,
+                Health = d.hp,
+                X = d.x,
+                Y = d.y,
+                R = d.r,
+            };
+        }
     }
 }

@@ -51,15 +51,18 @@
   <ItemGroup>
     <Compile Include="BattleBotClient.cs" />
     <Compile Include="Constructs\Arena.cs" />
+    <Compile Include="Constructs\Damage.cs" />
     <Compile Include="Constructs\IID.cs" />
     <Compile Include="Constructs\IHealth.cs" />
     <Compile Include="Constructs\IPositional.cs" />
     <Compile Include="Constructs\Bot.cs" />
+    <Compile Include="Constructs\ScanResult.cs" />
     <Compile Include="Constructs\WorldObject.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Constructs\TurnInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Dynamic;
-using Newtonsoft.Json;
 
 namespace BattleBot
 {
@@ -12,6 +10,8 @@ namespace BattleBot
         public Action<string, dynamic> OnError;
         public Action<string, int> OnGameEnd;
         public Action OnReady;
+        public Action<TurnInfo> Turn;
+        public Arena Arena;
 
         public BattleBotClient(string url)
         {
@@ -37,11 +37,28 @@ namespace BattleBot
                     OnError?.Invoke(payload.error, payload.data);
                     break;
                 case "joined":
-
+                    Arena = new Arena
+                    {
+                        Size = payload.size,
+                        Capacity = payload.capacity
+                    };
+                    foreach (var obstacle in payload.obstacles)
+                    {
+                        Arena.Obstacles.Add(WorldObject.FromDynamic(obstacle));
+                    }
+                    Arena.ClientBot = Bot.FromDynamic(payload.clientBot);
                     break;
                 case "ready":
                     Token = payload;
                     OnReady?.Invoke();
+                    break;
+                case "state":
+                    Arena.Turn = payload.turn;
+                    Arena.NextTurn = payload.nextTurn;
+                    Arena.PlayersRemaining = payload.playersRemaining;
+                    Arena.ClientBot = Bot.FromDynamic(payload.clientBot);
+                    var turn = TurnInfo.FromDynamic(payload);
+                    Turn?.Invoke(turn);
                     break;
 
             }
