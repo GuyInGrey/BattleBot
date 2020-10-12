@@ -1,33 +1,40 @@
 ﻿using System;
+using System.Dynamic;
+using System.Web.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BattleBot
 {
     public class BattleBotClient
     {
         private NetworkClient Client;
-        private string Token;
+        public string Token { get; private set; }
 
         public Action<string, dynamic> OnError;
         public Action<string, int> OnGameEnd;
         public Action OnReady;
-        public Action<TurnInfo> Turn;
+        public Action<TurnInfo> OnTurn;
+
         public Arena Arena;
 
-        public BattleBotClient(string url)
+        public BattleBotClient()
         {
             Client = new NetworkClient();
             Client.OnMessageReceived += Client_OnMessageReceived;
-            _ = Client.BeginListening(url); // TO CHANGE: CORRECT PORT
+        }
+
+        public void Start(string url)
+        {
+            _ = Client.BeginListening(url);
         }
 
         private void Client_OnMessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            var data = e.Content.FromJson();
-            HandleMessage(data.type, data.payload);
-        }
+            dynamic data = Json.Decode(e.Content);
+            var type = data.Type;
+            var payload = data.Payload;
 
-        public void HandleMessage(string type, dynamic payload)
-        {
             switch (type)
             {
                 case "end":
@@ -58,7 +65,7 @@ namespace BattleBot
                     Arena.PlayersRemaining = payload.playersRemaining;
                     Arena.ClientBot = Bot.FromDynamic(payload.clientBot);
                     var turn = TurnInfo.FromDynamic(payload);
-                    Turn?.Invoke(turn);
+                    OnTurn?.Invoke(turn);
                     break;
 
             }
@@ -67,7 +74,7 @@ namespace BattleBot
         public void SendMessage(string type, string payload)
         {
             dynamic obj = new { token = Token, type, payload, };
-            Client.SendMessage(Extensions.ToJson(obj));
+            Client.SendMessage(JsonConvert.SerializeObject(obj));
         }
     }
 }
