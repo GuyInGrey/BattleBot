@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -11,6 +12,7 @@ namespace BattleBot
     {
         private ClientWebSocket Client;
         public event EventHandler<MessageReceivedEventArgs> OnMessageReceived;
+        public string Address { get; private set; }
 
         public NetworkClient()
         {
@@ -27,6 +29,7 @@ namespace BattleBot
             try
             {
                 await Client.ConnectAsync(new Uri(url), CancellationToken.None);
+                Address = url;
             }
             catch (Exception e)
             {
@@ -91,6 +94,14 @@ namespace BattleBot
         {
             Client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Client Disposed", CancellationToken.None).GetAwaiter().GetResult();
             Client.Dispose();
+        }
+
+        public async Task<long> GetLatency()
+        {
+            if (Address is null) { return -1; }
+            var ping = new Ping();
+            var response = ping.Send(Address, 15000);
+            return response.RoundtripTime;
         }
     }
 }

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Dynamic;
 using System.Web.Helpers;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace BattleBot
 {
     public class BattleBotClient
     {
-        private NetworkClient Client;
+        public NetworkClient Socket;
         public string Token { get; private set; }
 
         public Action<string, dynamic> OnError;
@@ -20,13 +18,13 @@ namespace BattleBot
 
         public BattleBotClient()
         {
-            Client = new NetworkClient();
-            Client.OnMessageReceived += Client_OnMessageReceived;
+            Socket = new NetworkClient();
+            Socket.OnMessageReceived += Client_OnMessageReceived;
         }
 
         public void Start(string url)
         {
-            _ = Client.BeginListening(url);
+            _ = Socket.BeginListening(url);
         }
 
         private void Client_OnMessageReceived(object sender, MessageReceivedEventArgs e)
@@ -74,7 +72,7 @@ namespace BattleBot
         public void SendMessage(string type, string payload)
         {
             dynamic obj = new { token = Token, type, payload, };
-            Client.SendMessage(JsonConvert.SerializeObject(obj));
+            Socket.SendMessage(JsonConvert.SerializeObject(obj));
         }
     }
 }

@@ -1,35 +1,50 @@
 ﻿using System;
-using BattleBot;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace BattleBot.Tests
 {
     class Program
     {
+        static BattleBotClient Client;
+
         static void Main()
         {
             var server = new BattleBotServer("ws://localhost:3000");
 
-            var client = new BattleBotClient();
-            client.OnError = (error, details) =>
+            Client = new BattleBotClient();
+            Client.OnError = (error, details) =>
             {
                 Console.WriteLine(error + "\n" + JsonConvert.DeserializeObject(details));
             };
-            client.OnReady = () =>
+            Client.OnReady = () =>
             {
-                Console.WriteLine("Ready! Token: " + client.Token);
+                Console.WriteLine("Ready! Token: " + Client.Token);
             };
-            client.OnGameEnd = (winner, rounds) =>
+            Client.OnGameEnd = (winner, rounds) =>
             {
                 Console.WriteLine($"{winner} has won the game! ({rounds} rounds)");
             };
-            client.OnTurn = (turnInfo) =>
+            Client.OnTurn = (turnInfo) =>
             {
 
             };
-            client.Start(@"ws://localhost:3000");
+            Client.Start(@"ws://localhost:3000");
+            RunPings();
 
             Console.Read();
+        }
+
+        static void RunPings()
+        {
+            Task.Run(() =>
+            {
+                Console.Title = "Latency: " + Client.Socket.GetLatency().GetAwaiter().GetResult();
+                Thread.Sleep(5000);
+                RunPings();
+            });
         }
     }
 }
