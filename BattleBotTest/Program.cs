@@ -32,7 +32,6 @@ namespace BattleBot.Tests
                     response.SetMovement(MovementType.MoveForward, 3.5m);
                     response.SetScanner(10m);
                     response.SetWeapon(WeaponType.Mortar, 90m, 2m);
-                    return response;
                 }
             };
             Client.Start(@"ws://localhost:3000");

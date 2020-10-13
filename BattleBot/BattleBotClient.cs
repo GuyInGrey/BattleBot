@@ -12,7 +12,7 @@ namespace BattleBot
         public Action<string, dynamic> OnError;
         public Action<string, int> OnGameEnd;
         public Action OnReady;
-        public Func<TurnInfo, TurnResponse, TurnResponse> OnTurn;
+        public Action<TurnInfo, TurnResponse> OnTurn;
 
         public ClientArena Arena = new ClientArena();
 
@@ -67,8 +67,9 @@ namespace BattleBot
                     {
                         Arena.Obstacles.RemoveAll(o => o.ID == obj);
                     }
-                    var response = ((TurnResponse)OnTurn?.Invoke(turn, new TurnResponse())).GetObject(Arena.NextTurn);
-                    SendMessage("turn", response);
+                    var response = new TurnResponse();
+                    OnTurn?.Invoke(turn, response);
+                    SendMessage("turn", response.GetObject(Arena.NextTurn));
                     break;
             }
         }
