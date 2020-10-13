@@ -17,6 +17,7 @@ namespace BattleBot
         public void Dispose()
         {
             if (!(Server is null) && Server.IsListening) { Server.Stop(); Server = null; }
+            var a = new ServerArena();
         }
     }
 }

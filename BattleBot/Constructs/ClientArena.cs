@@ -2,7 +2,7 @@
 
 namespace BattleBot
 {
-    public class Arena
+    public class ClientArena
     {
         public double Size { get; set; }
         public double Capacity { get; set; }

@@ -12,9 +12,9 @@ namespace BattleBot
         public Action<string, dynamic> OnError;
         public Action<string, int> OnGameEnd;
         public Action OnReady;
-        public Action<TurnInfo> OnTurn;
+        public Func<TurnInfo, TurnResponse, TurnResponse> OnTurn;
 
-        public Arena Arena;
+        public ClientArena Arena;
 
         public BattleBotClient()
         {
@@ -42,7 +42,7 @@ namespace BattleBot
                     OnError?.Invoke(payload.error, payload.data);
                     break;
                 case "joined":
-                    Arena = new Arena
+                    Arena = new ClientArena()
                     {
                         Size = payload.size,
                         Capacity = payload.capacity
@@ -63,13 +63,17 @@ namespace BattleBot
                     Arena.PlayersRemaining = payload.playersRemaining;
                     Arena.ClientBot = Bot.FromDynamic(payload.clientBot);
                     var turn = TurnInfo.FromDynamic(payload);
-                    OnTurn?.Invoke(turn);
+                    foreach (string obj in turn.DestroyedObjects)
+                    {
+                        Arena.Obstacles.RemoveAll(o => o.ID == obj);
+                    }
+                    var response = ((TurnResponse)OnTurn?.Invoke(turn, new TurnResponse())).GetObject(Arena.NextTurn);
+                    SendMessage("turn", response);
                     break;
-
             }
         }
 
-        public void SendMessage(string type, string payload)
+        public void SendMessage(string type, dynamic payload)
         {
             dynamic obj = new { token = Token, type, payload, };
             Socket.SendMessage(JsonConvert.SerializeObject(obj));
