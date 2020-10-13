@@ -112,7 +112,7 @@ namespace BattleBot
                 .Split(':')[0];
 
             var ping = new Ping();
-            var response = ping.Send(modified.Replace("ws://", ""), 15000);
+            var response = ping.Send(modified, 15000);
             return response.RoundtripTime;
         }
     }
