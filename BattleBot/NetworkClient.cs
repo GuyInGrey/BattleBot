@@ -29,6 +29,8 @@ namespace BattleBot
             try
             {
                 await Client.ConnectAsync(new Uri(url), CancellationToken.None);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Client connected.");
                 Address = url;
             }
             catch (Exception e)
@@ -64,6 +66,8 @@ namespace BattleBot
                             ms.Position = 0;
 
                             OnMessageReceived?.Invoke(this, new MessageReceivedEventArgs(data));
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.WriteLine(data);
                         }
                     }
                 }
@@ -81,6 +85,8 @@ namespace BattleBot
             {
                 Client.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(content)), 
                     WebSocketMessageType.Text, true, CancellationToken.None);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(content);
             }
             catch (Exception e)
             {
@@ -99,8 +105,14 @@ namespace BattleBot
         public async Task<long> GetLatency()
         {
             if (Address is null) { return -1; }
+
+            var modified = Address
+                .Replace("ws://", "")
+                .Replace("wss://", "")
+                .Split(':')[0];
+
             var ping = new Ping();
-            var response = ping.Send(Address, 15000);
+            var response = ping.Send(modified.Replace("ws://", ""), 15000);
             return response.RoundtripTime;
         }
     }

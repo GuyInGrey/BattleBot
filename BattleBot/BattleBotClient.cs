@@ -14,7 +14,7 @@ namespace BattleBot
         public Action OnReady;
         public Func<TurnInfo, TurnResponse, TurnResponse> OnTurn;
 
-        public ClientArena Arena;
+        public ClientArena Arena = new ClientArena();
 
         public BattleBotClient()
         {

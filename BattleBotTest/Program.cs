@@ -17,20 +17,20 @@ namespace BattleBot.Tests
             {
                 OnError = (error, details) =>
                 {
-                    Console.WriteLine(error + "\n" + JsonConvert.DeserializeObject(details));
+                    //Console.WriteLine(error + "\n" + JsonConvert.DeserializeObject(details));
                 },
                 OnReady = () =>
                 {
-                    Console.WriteLine("Ready! Token: " + Client.Token);
+                    //Console.WriteLine("Ready! Token: " + Client.Token);
                 },
                 OnGameEnd = (winner, rounds) =>
                 {
-                    Console.WriteLine($"{winner} has won the game! ({rounds} rounds)");
+                    //Console.WriteLine($"{winner} has won the game! ({rounds} rounds)");
                 },
                 OnTurn = (turnInfo, response) =>
                 {
                     response.SetMovement(MovementType.MoveForward, 3.5m);
-                    response.SetScanner(Client.Arena.ClientBot.Scanner + 10m);
+                    response.SetScanner(10m);
                     response.SetWeapon(WeaponType.Mortar, 90m, 2m);
                     return response;
                 }

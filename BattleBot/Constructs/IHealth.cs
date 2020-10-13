@@ -2,6 +2,6 @@
 {
     public interface IHealth
     {
-        double Health { get; set; }
+        decimal Health { get; set; }
     }
 }

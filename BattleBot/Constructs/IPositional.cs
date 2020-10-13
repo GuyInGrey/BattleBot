@@ -2,8 +2,8 @@
 {
     public interface IPositional
     {
-        double X { get; set; }
-        double Y { get; set; }
-        double R { get; set; }
+        decimal X { get; set; }
+        decimal Y { get; set; }
+        decimal R { get; set; }
     }
 }

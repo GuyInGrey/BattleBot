@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using System.Web.Helpers;
 
 namespace BattleBot
 {
@@ -25,11 +28,11 @@ namespace BattleBot
             foreach (var scan in d.scanResults) { scanResults.Add(ScanResult.FromDynamic(scan)); }
 
             toReturn.DamageTaken = damages.ToArray();
-            toReturn.Shots = d.shots;
+            toReturn.Shots = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (decimal)o).ToArray();
             toReturn.DestroyedBots = destroyedBots.ToArray();
-            toReturn.DestroyedObjects = d.objectsDestroyed;
+            toReturn.DestroyedObjects = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (string)o).ToArray();
             toReturn.ScanResults = scanResults.ToArray();
-            toReturn.ScannedBy = d.scannedBy;
+            toReturn.ScannedBy = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (decimal)o).ToArray();
 
             return toReturn;
         }

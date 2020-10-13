@@ -9,10 +9,10 @@ namespace BattleBot
     public class WorldObject : IID, IHealth, IPositional
     {
         public string ID { get; set; }
-        public double Health { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double R { get; set; }
+        public decimal Health { get; set; }
+        public decimal X { get; set; }
+        public decimal Y { get; set; }
+        public decimal R { get; set; }
 
         public static WorldObject FromDynamic(dynamic d)
         {
