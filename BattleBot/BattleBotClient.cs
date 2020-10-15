@@ -24,10 +24,10 @@ namespace BattleBot
 
         public void Start(string url)
         {
-            _ = Socket.BeginListening(url);
+            _ = Socket.ConnectAndListen(url);
         }
 
-        private void Client_OnMessageReceived(object sender, MessageReceivedEventArgs e)
+        private void Client_OnMessageReceived(object sender, SocketMessageEventArgs e)
         {
             dynamic data = Json.Decode(e.Content);
             var type = data.Type;

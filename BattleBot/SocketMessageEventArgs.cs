@@ -2,11 +2,11 @@
 
 namespace BattleBot
 {
-    public class MessageReceivedEventArgs : EventArgs
+    public class SocketMessageEventArgs : EventArgs
     {
         public string Content;
 
-        public MessageReceivedEventArgs(string content)
+        public SocketMessageEventArgs(string content)
         {
             Content = content;
         }

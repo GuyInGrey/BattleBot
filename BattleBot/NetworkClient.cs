@@ -10,27 +10,30 @@ namespace BattleBot
 {
     public class NetworkClient : IDisposable
     {
-        private ClientWebSocket Client;
-        public event EventHandler<MessageReceivedEventArgs> OnMessageReceived;
+        private ClientWebSocket ClientSocket;
+
+        public event EventHandler<SocketMessageEventArgs> OnMessageReceived;
+        public event EventHandler<SocketMessageEventArgs> OnMessageSent;
+        public event EventHandler OnClientConnected;
+
         public string Address { get; private set; }
 
         public NetworkClient()
         {
-            Client = new ClientWebSocket();
+            ClientSocket = new ClientWebSocket();
         }
 
-        public NetworkClient(ClientWebSocket client)
-        {
-            Client = client;
-        }
-
-        public async Task<bool> BeginListening(string url)
+        /// <summary>
+        /// The NetworkClient connects to the server and begins listening for incoming messages.
+        /// </summary>
+        /// <param name="url">The URL of the server to connect to, WebSocket complient.</param>
+        /// <returns>Returns whether the connection was successful or not.</returns>
+        public async Task<bool> ConnectAndListen(string url)
         {
             try
             {
-                await Client.ConnectAsync(new Uri(url), CancellationToken.None);
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("Client connected.");
+                await ClientSocket.ConnectAsync(new Uri(url), CancellationToken.None);
+                OnClientConnected?.Invoke(this, null);
                 Address = url;
             }
             catch (Exception e)
@@ -44,7 +47,7 @@ namespace BattleBot
 
         private async Task Listen()
         {
-            while (Client.State == WebSocketState.Open)
+            while (ClientSocket.State == WebSocketState.Open)
             {
                 try
                 {
@@ -54,7 +57,7 @@ namespace BattleBot
                         do
                         {
                             var messageBuffer = WebSocket.CreateClientBuffer(1024, 16);
-                            result = await Client.ReceiveAsync(messageBuffer, CancellationToken.None);
+                            result = await ClientSocket.ReceiveAsync(messageBuffer, CancellationToken.None);
                             ms.Write(messageBuffer.Array, messageBuffer.Offset, result.Count);
 
                         } while (!result.EndOfMessage);
@@ -65,9 +68,7 @@ namespace BattleBot
                             ms.Seek(0, SeekOrigin.Begin);
                             ms.Position = 0;
 
-                            OnMessageReceived?.Invoke(this, new MessageReceivedEventArgs(data));
-                            Console.ForegroundColor = ConsoleColor.DarkGreen;
-                            Console.WriteLine(data);
+                            OnMessageReceived?.Invoke(this, new SocketMessageEventArgs(data));
                         }
                     }
                 }
@@ -78,15 +79,19 @@ namespace BattleBot
             }
         }
 
+        /// <summary>
+        /// Sends a message to the server.
+        /// </summary>
+        /// <param name="content">The message to send.</param>
+        /// <returns>Returns whether the message was successfuly sent or not.</returns>
         public bool SendMessage(string content)
         {
-            if (Client.State != WebSocketState.Open) { return false; }
+            if (ClientSocket.State != WebSocketState.Open) { return false; }
             try
             {
-                Client.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(content)), 
+                ClientSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(content)), 
                     WebSocketMessageType.Text, true, CancellationToken.None);
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine(content);
+                OnMessageSent?.Invoke(this, new SocketMessageEventArgs(content));
             }
             catch (Exception e)
             {
@@ -96,12 +101,19 @@ namespace BattleBot
             return true;
         }
 
+        /// <summary>
+        /// Disconnects the client from the server and safely disposes of the NetworkClient.
+        /// </summary>
         public void Dispose()
         {
-            Client.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Client Disposed", CancellationToken.None).GetAwaiter().GetResult();
-            Client.Dispose();
+            ClientSocket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Client Disposed", CancellationToken.None).GetAwaiter().GetResult();
+            ClientSocket.Dispose();
         }
 
+        /// <summary>
+        /// Gets the latency between the client and the server.
+        /// </summary>
+        /// <returns></returns>
         public async Task<long> GetLatency()
         {
             if (Address is null) { return -1; }

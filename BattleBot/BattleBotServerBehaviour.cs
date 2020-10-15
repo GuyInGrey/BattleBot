@@ -14,6 +14,7 @@ namespace BattleBot
         {
             //Console.ForegroundColor = ConsoleColor.Cyan;
             //Console.WriteLine(e.Data);
+            Thread.Sleep(1000);
             SendState();
         }
 
