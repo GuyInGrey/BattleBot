@@ -106,6 +106,7 @@
     <Compile Include="Constructs\IHealth.cs" />
     <Compile Include="Constructs\IPositional.cs" />
     <Compile Include="Constructs\Bot.cs" />
+    <Compile Include="Constructs\JoinArenaInfo.cs" />
     <Compile Include="Constructs\ScanResult.cs" />
     <Compile Include="Constructs\TurnResponse.cs" />
     <Compile Include="Constructs\WorldObject.cs" />

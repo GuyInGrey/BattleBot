@@ -38,6 +38,7 @@ namespace BattleBot
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{e.Message}\n\n{e.StackTrace}");
                 return false;
             }
@@ -78,6 +79,7 @@ namespace BattleBot
                 }
                 catch (Exception e)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{e.Message}\n\n{e.StackTrace}");
                 }
             }
@@ -93,12 +95,13 @@ namespace BattleBot
             if (ClientSocket.State != WebSocketState.Open) { return false; }
             try
             {
+                OnMessageSent?.Invoke(this, new SocketMessageEventArgs(content));
                 ClientSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(content)), 
                     WebSocketMessageType.Text, true, CancellationToken.None);
-                OnMessageSent?.Invoke(this, new SocketMessageEventArgs(content));
             }
             catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{e.Message}\n\n{e.StackTrace}");
                 return false;
             }

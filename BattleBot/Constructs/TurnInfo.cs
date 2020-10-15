@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Web.Helpers;
@@ -28,11 +29,11 @@ namespace BattleBot
             foreach (var scan in d.scanResults) { scanResults.Add(ScanResult.FromDynamic(scan)); }
 
             toReturn.DamageTaken = damages.ToArray();
-            toReturn.Shots = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (decimal)o).ToArray();
+            toReturn.Shots = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => decimal.Parse(o.ToString())).ToArray();
             toReturn.DestroyedBots = destroyedBots.ToArray();
-            toReturn.DestroyedObjects = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (string)o).ToArray();
+            toReturn.DestroyedObjects = ((DynamicJsonArray)d.objectsDestroyed).ToList().ConvertAll(o => o.ToString()).ToArray();
             toReturn.ScanResults = scanResults.ToArray();
-            toReturn.ScannedBy = ((DynamicJsonArray)d.shots).ToList().ConvertAll(o => (decimal)o).ToArray();
+            toReturn.ScannedBy = ((DynamicJsonArray)d.scannedBy).ToList().ConvertAll(o => decimal.Parse(o.ToString())).ToArray();
 
             return toReturn;
         }

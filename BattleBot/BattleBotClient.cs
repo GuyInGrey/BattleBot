@@ -19,11 +19,11 @@ namespace BattleBot
         public BattleBotClient()
         {
             Socket = new NetworkClient();
-            Socket.OnMessageReceived += Client_OnMessageReceived;
         }
 
         public void Start(string url)
         {
+            Socket.OnMessageReceived += Client_OnMessageReceived;
             _ = Socket.ConnectAndListen(url);
         }
 
@@ -78,6 +78,11 @@ namespace BattleBot
         {
             dynamic obj = new { token = Token, type, payload, };
             Socket.SendMessage(JsonConvert.SerializeObject(obj));
+        }
+
+        public void JoinArena(JoinArenaInfo info)
+        {
+            SendMessage("join", info.ToDynamic());
         }
     }
 }

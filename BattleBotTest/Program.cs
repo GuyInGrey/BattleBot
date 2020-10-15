@@ -9,6 +9,7 @@ namespace BattleBot.Tests
     {
         static void Main()
         {
+            Task.Run(() => new Window());
             new Window();
             Console.Read();
         }
