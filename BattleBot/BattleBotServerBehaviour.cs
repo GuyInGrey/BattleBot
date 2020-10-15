@@ -12,9 +12,7 @@ namespace BattleBot
 
         protected override void OnMessage(MessageEventArgs e)
         {
-            //Console.ForegroundColor = ConsoleColor.Cyan;
-            //Console.WriteLine(e.Data);
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
             SendState();
         }
 

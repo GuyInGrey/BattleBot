@@ -69,6 +69,10 @@ namespace BattleBot
                             ms.Position = 0;
 
                             OnMessageReceived?.Invoke(this, new SocketMessageEventArgs(data));
+                        } else if (result.MessageType == WebSocketMessageType.Close)
+                        {
+                            Dispose();
+                            return;
                         }
                     }
                 }
