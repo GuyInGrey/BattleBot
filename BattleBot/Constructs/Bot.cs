@@ -14,9 +14,8 @@
             {
                 ID = d.id,
                 Health = d.hp,
-                X = d.x,
-                Y = d.y,
-                R = d.r,
+                Position = new Vector2(d.x, d.y),
+                Radius = d.r,
                 Name = d.name,
                 Heading = d.heading,
                 Scanner = d.scanner,

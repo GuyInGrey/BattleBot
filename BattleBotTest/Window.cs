@@ -93,17 +93,17 @@ namespace BattleBot.Tests
             Client.Arena.Obstacles.ForEach(o =>
             {
                 Art.Fill(PColor.Grey);
-                Art.Circle((float)o.X, (float)o.Y, 0.5f);
+                Art.Circle((float)o.Position.X, (float)o.Position.Y, 0.5f);
                 Art.Fill(PColor.Black);
-                Art.Text(o.ID, (float)o.X, (float)o.Y);
+                Art.Text(o.ID, (float)o.Position.X, (float)o.Position.Y);
             });
 
             if (Client.Arena.ClientBot is object)
             {
                 Art.Fill(PColor.White);
-                Art.Circle((float)Client.Arena.ClientBot.X, (float)Client.Arena.ClientBot.Y, 0.5f);
+                Art.Circle((float)Client.Arena.ClientBot.Position.X, (float)Client.Arena.ClientBot.Position.Y, 0.5f);
                 Art.Fill(PColor.Black);
-                Art.Text("BOT\n" + Client.Arena.ClientBot.ID, (float)Client.Arena.ClientBot.X, (float)Client.Arena.ClientBot.Y);
+                Art.Text("BOT\n" + Client.Arena.ClientBot.ID, (float)Client.Arena.ClientBot.Position.X, (float)Client.Arena.ClientBot.Position.Y);
             }
         }
 

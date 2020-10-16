@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BattleBot
+﻿namespace BattleBot
 {
-    public class WorldObject : IID, IHealth, IPositional
+    public class WorldObject
     {
         public string ID { get; set; }
         public decimal Health { get; set; }
-        public decimal X { get; set; }
-        public decimal Y { get; set; }
-        public decimal R { get; set; }
+        public decimal Radius { get; set; }
+        public Vector2 Position { get; set; }
 
         public static WorldObject FromDynamic(dynamic d)
         {
@@ -20,9 +13,8 @@ namespace BattleBot
             {
                 ID = d.id,
                 Health = d.hp,
-                X = d.x,
-                Y = d.y,
-                R = d.r,
+                Position = new Vector2(d.x, d.y),
+                Radius = d.r,
             };
         }
     }

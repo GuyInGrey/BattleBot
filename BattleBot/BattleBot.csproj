@@ -102,14 +102,13 @@
     <Compile Include="BattleBotServerBehaviour.cs" />
     <Compile Include="Constructs\ClientArena.cs" />
     <Compile Include="Constructs\Damage.cs" />
-    <Compile Include="Constructs\IID.cs" />
-    <Compile Include="Constructs\IHealth.cs" />
-    <Compile Include="Constructs\IPositional.cs" />
     <Compile Include="Constructs\Bot.cs" />
     <Compile Include="Constructs\JoinArenaInfo.cs" />
     <Compile Include="Constructs\ScanResult.cs" />
     <Compile Include="Constructs\TurnResponse.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="Constructs\WorldObject.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="SocketMessageEventArgs.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
