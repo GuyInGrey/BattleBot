@@ -12,7 +12,7 @@ namespace BattleBot
         public Action<string, dynamic> OnError;
         public Action<string, int> OnGameEnd;
         public Action OnReady;
-        public Action<TurnInfo, TurnResponse> OnTurn;
+        public Action<TurnInfo, TurnResponse, Bot> OnTurn;
 
         public ClientArena Arena = new ClientArena();
 
@@ -62,13 +62,13 @@ namespace BattleBot
                     Arena.NextTurn = payload.nextTurn;
                     Arena.PlayersRemaining = payload.playersRemaining;
                     Arena.ClientBot = Bot.FromDynamic(payload.clientBot);
-                    var turn = TurnInfo.FromDynamic(payload);
-                    foreach (string obj in turn.DestroyedObjects)
+                    var turn = (TurnInfo)TurnInfo.FromDynamic(payload);
+                    foreach (var obj in turn.DestroyedObjects)
                     {
                         Arena.Obstacles.RemoveAll(o => o.ID == obj);
                     }
                     var response = new TurnResponse();
-                    OnTurn?.Invoke(turn, response);
+                    OnTurn?.Invoke(turn, response, Arena.ClientBot);
                     SendMessage("turn", response.GetObject(Arena.NextTurn));
                     break;
             }

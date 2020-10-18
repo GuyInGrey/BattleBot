@@ -7,15 +7,15 @@ namespace BattleBot.Tests
     {
         static void Main()
         {
-            var o = new WorldObject() { Position = new Vector2(5, 3) };
-            var o2 = new WorldObject() { Position = new Vector2(6, 4) };
+            var p1 = new Vector2(0, 0);
+            var p2 = new Vector2(0, 1);
 
-            Console.WriteLine(default(Vector2));
+            Console.WriteLine(p1.AngleTo(p2));
+            p2 = Vector2.RotatePoint(p2, p1, 90);
+            Console.WriteLine(p1.AngleTo(p2));
 
-            Console.WriteLine(o.Position.AngleTo(o2.Position));
-
-            Task.Run(() => new Window());
-            new Window();
+            Task.Run(() => new Window(false));
+            new Window(true);
             Console.Read();
         }
     }

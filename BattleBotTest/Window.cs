@@ -9,9 +9,12 @@ namespace BattleBot.Tests
     {
         BattleBotClient Client;
         BattleBotServer Server;
+        bool Debug;
+        Vector2 LastFirePosition;
 
-        public Window()
+        public Window(bool debug)
         {
+            Debug = debug;
             CreateCanvas(1000, 1000, 30);
         }
 
@@ -42,11 +45,47 @@ namespace BattleBot.Tests
                 {
                     Console.WriteLine($"{winner} has won the game! ({rounds} rounds)");
                 },
-                OnTurn = (turnInfo, response) =>
+                OnTurn = (turnInfo, response, clientBot) =>
                 {
-                    response.SetMovement(MovementType.MoveForward, 3.5m);
-                    response.SetScanner(10m);
-                    response.SetWeapon(WeaponType.Mortar, 90m, 2m);
+                    response.SetScanner(60m);
+                    var nearestObstacle = Client.Arena.Obstacles.GetNearest(Client.Arena.ClientBot);
+                    if (Debug) { Console.WriteLine($"BotID: {clientBot.ID}; Nearest obstacle: {nearestObstacle.ID}"); }
+
+                    var angle = clientBot.Position.AngleTo(nearestObstacle.Position);
+                    angle = (angle + 180) % 360;
+
+                    if (clientBot.Heading != angle)
+                    {
+                        response.SetMovement(MovementType.Turn, angle);
+                        if (Debug) { Console.WriteLine($"Turning to {nearestObstacle.ID}; Angle {angle}"); }
+                    }
+                    else
+                    {
+                        response.SetMovement(MovementType.MoveForward, 0.05m);
+                        if (Debug) { Console.WriteLine($"Moving to {nearestObstacle.ID}; Distance 4"); }
+                    }
+
+                    //if (clientBot.Position.DistanceTo(nearestObstacle.Position) > 5)
+                    //{
+                    //    var angle = clientBot.Position.AngleTo(nearestObstacle.Position);
+                    //    angle = (angle + 180) % 360;
+                    //    if (clientBot.Heading != angle)  
+                    //    { 
+                    //        response.SetMovement(MovementType.Turn, angle);
+                    //        if (Debug) { Console.WriteLine($"Turning to {nearestObstacle.ID}; Angle {angle}"); }
+                    //    } 
+                    //    else 
+                    //    {
+                    //        response.SetMovement(MovementType.MoveForward, 4);
+                    //        if (Debug) { Console.WriteLine($"Moving to {nearestObstacle.ID}; Distance 4"); }
+                    //    }
+                    //}
+
+                    response.SetWeapon(WeaponType.Mortar, 
+                        clientBot.Position.AngleTo(nearestObstacle.Position),
+                        clientBot.Position.DistanceTo(nearestObstacle.Position));
+
+
                 },
             };
             Client.Socket.OnMessageSent += Socket_OnMessageSend;
@@ -58,18 +97,18 @@ namespace BattleBot.Tests
 
         private void Socket_OnMessageReceived(object sender, SocketMessageEventArgs e)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"[{DateTime.Now}]");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(e.Content);
+            //Console.ForegroundColor = ConsoleColor.Yellow;
+            //Console.Write($"[{DateTime.Now}]");
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.WriteLine(e.Content);
         }
 
         private void Socket_OnMessageSend(object sender, SocketMessageEventArgs e)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"[{DateTime.Now}]");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(e.Content);
+            //Console.ForegroundColor = ConsoleColor.Yellow;
+            //Console.Write($"[{DateTime.Now}]");
+            //Console.ForegroundColor = ConsoleColor.Cyan;
+            //Console.WriteLine(e.Content);
         }
 
         private void Draw(float delta)
@@ -111,7 +150,7 @@ namespace BattleBot.Tests
         {
             while (Client?.Socket is object)
             {
-                Title($"Latency: {await Client.Socket.GetLatency()} ms; FPS: " + FrameRateCurrent);
+                Title($"Latency: {await Client.Socket.GetLatency()} ms; FPS: " + FrameRateCurrent + "; Turn: " + Client.Arena.Turn);
                 await Task.Delay(500);
             }
         }
